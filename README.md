@@ -26,4 +26,4 @@ The database file `db.sqlite3` has already extracted menu data from the orignal 
 - login/logout for users
 - `/menu` route with menu items listed, all with `add to cart` buttons
 - `/menu/add/<dish_name>` route allowing users to customise dishes and add them to cart
-- `/your_cart` route with all dishes created by logged user, with total amount of $ to bill and with a textfield allowing the user to leave an additional message for restauration's owners
+- `/your_cart` route with all dishes created by logged user, with total amount of $ to bill and with a textfield allowing the user to leave an additional message for restauration's owner
