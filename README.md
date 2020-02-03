@@ -19,7 +19,7 @@ The database file `db.sqlite3` has already extracted menu data from the orignal 
 02.02.2020:
 - database structure in file `orders/models.py` is complete
 - program for data extracting from original website and inserting it into database is complete
-- creating dishes and orders works properly and is possible so far only from admin site (route `/admin')
+- creating dishes and orders works properly and is possible so far only from admin site (route `/admin`)
 
 ### To do
 
