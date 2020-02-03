@@ -4,7 +4,7 @@ This is (potentially) a solution for the third problem from CS50 course conducte
 
 ## Description
 
-The goal is to develop own version of following website: http://www.pinocchiospizza.net/menu.html with additional ability allowing users to place orders with dishes listed in menu.
+The goal is to develop own version of following website: http://www.pinocchiospizza.net/menu.html with additional ability allowing users to place orders composed of dishes listed in menu.
 
 ## Running
 
@@ -12,13 +12,14 @@ The program requires Django installed to run.
 
 The file `extract data.ipynb` extracts data from orignal website and inserts it into database. Should be run once after initiating database.
 
-The database file `db.sqlite3` has already extracted menu data from the orignal site and also contains already created superuser (username: `beznick`, password: `abc123`)
+The database file `db.sqlite3` has already extracted menu data from the orignal site and also contains already created superuser (username: `beznick`, password: `abc123`).
 
 ### Progress so far
 
 02.02.2020:
 - database structure in file `orders/models.py` is complete
 - program for data extracting from original website and inserting it into database is complete
+- creating dishes and orders works properly and is possible so far only from admin site (route `/admin')
 
 ### To do
 
