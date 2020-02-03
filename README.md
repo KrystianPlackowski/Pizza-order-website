@@ -21,8 +21,8 @@ The database file `db.sqlite3` has already extracted menu data from the orignal 
 - program for data extracting from original website and inserting it into database is complete
 - creating dishes and orders works properly and is possible so far only from admin site (route `/admin`):
 1) First you have to create a new empty `order` (at least one)
-2) Then you can create various `dishes` and assign them to a choosed `order`. The order consists of dishes is what the user is going to see in their cart.
-3) Note: a `dish` differs from `menu item` is such way, that in case of creating a `pizza` kind `dish` you can assign **various** `toppings` to it, where `menu item` pizza only defines **number** of `toppings`.
+2) Then you can create various `dishes` and assign them to a choosed `order`. The order consists of dishes which the user is going to see in their cart.
+3) Note: a `dish` differs from a `menu item` is such way, that in case of creating a pizza kind `dish` you can assign **various** `toppings` to it, where `menu item` pizza only defines **number** of `toppings`.
 
 ### To do
 
