@@ -1,0 +1,12 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+    {{ item.name }} 
+{% endblock %}
+
+{% block body %}
+    <h1 style="padding-left:15%">{{ item.kind|title }} ({{ item.name }})</h1>
+
+    <h2>{{ item }}</h2>
+
+{% endblock %}

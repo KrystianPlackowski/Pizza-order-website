@@ -8,7 +8,7 @@ class Menu(models.Model):
     price = models.DecimalField(max_digits=4, decimal_places=2, blank=False, default=0)
 
     def __str__(self):
-        result = f"({self.kind}) {self.name}"
+        result = f"{self.id} - ({self.kind}) {self.name}"
         if self.size != '':
             result += f" - {self.size}"
         return result + f" - {self.price} $"

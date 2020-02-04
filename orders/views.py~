@@ -3,46 +3,45 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from collections import defaultdict
-from nested_dict import nested_dict
+from collections import defaultdict, namedtuple
 from ordered_set import OrderedSet
 
 from .models import Menu, Topping, Order, Dish
 
 # Create your views here.
 def index(request):
-    menu = Menu.objects.all()
-    menu_nameset = defaultdict(OrderedSet)
-    menu_pricedict = nested_dict()
-    for item in menu:
-        menu_nameset[item.kind].add(item.name)
-        menu_pricedict[item.kind][item.size][item.name] = item.price
-
-    class foodtable:
-        def __init__(self, name, columns, body):
-            self.name = name
-            self.columns = columns
-            self.body = body
+    menu_xlabels = defaultdict(OrderedSet)
+    menu_ylabels = defaultdict(OrderedSet)
+    menu_itemdict = dict()
+    for item in Menu.objects.all():
+        menu_xlabels[item.kind].add(item.size)
+        menu_ylabels[item.kind].add(item.name)
+        menu_itemdict[(item.kind, item.size, item.name)] = item
     
-    def prepare_table(kind: str, columns):
+    # Note: each row of each table consists first of one string type value (this is row's label),
+    # then multiple Menu.objects type values
+    def prepare_table(kind: str):
         body = []
-        for name in menu_nameset[kind]:
-            row = []
-            row.append(name)
-            for size in columns:
-                row.append(menu_pricedict[kind][size][name])
+        for name in menu_ylabels[kind]:
+            row = [name]
+            for size in menu_xlabels[kind]:
+                if (kind, size, name) in menu_itemdict.keys():
+                    row.append(menu_itemdict[(kind, size, name)])
+                else:
+                    row.append('')
             body.append(row)
-        return foodtable(kind.capitalize(), columns, body)
+        foodtable = namedtuple('foodtable', ['name', 'xlabels', 'body'])
+        return foodtable(kind.capitalize(), list(menu_xlabels[kind]), body)
 
-    regular_pizza = prepare_table("regular pizza", ['Small', 'Large'])
-    silician_pizza = prepare_table("silician pizza", ['Small', 'Large'])
-    subs = prepare_table("sub", ['Small', 'Large'])
-    pasta = prepare_table("pasta", [''])
-    salads = prepare_table("salad", [''])
-    platters = prepare_table("dinner platter", ['Small', 'Large'])
+    menu = [prepare_table(kind) for kind in menu_xlabels.keys()]
 
     context = {
-        "menu": [regular_pizza, silician_pizza, subs, platters, pasta, salads],
+        "menu": menu,
         "toppings": Topping.objects.all(),
     }
     return render(request, "orders/index.html", context)
+
+def item_info(request, menu_id):
+    item = Menu.objects.get(id=menu_id)
+    context = {"item": item}
+    return render(request, "orders/item_info.html", context)

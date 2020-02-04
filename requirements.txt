@@ -1,3 +1,2 @@
-Django==3.0.1
-nested_dict
+Django==3.0.3
 ordered_set

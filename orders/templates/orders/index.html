@@ -8,22 +8,33 @@
     <h1 style="padding-left:15%">Menu</h1>
 
     {% for foodkind in menu %}
-    <h2>{{ foodkind.name }}</h2>
-    <table class="mytable">
-        <tr>
-            <th></th>
-            {% for column in foodkind.columns %}
-                <th>{{ column }}</th>
-            {% endfor %}
-        </tr>
-        {% for row in foodkind.body %}
+        <h2>{{ foodkind.name }}</h2>
+        <table class="mytable">
             <tr>
-            {% for item in row %}
-                <td>{{ item }}</td>
-            {% endfor %}
+                <th></th>
+                {% for xlabel in foodkind.xlabels %}
+                    <th>{{ xlabel }}</th>
+                {% endfor %}
             </tr>
-        {% endfor %}
-    </table>
+            {% for row in foodkind.body %}
+                <tr>
+                {% for ylabel in row|slice:":1" %}
+                    <td>{{ ylabel }}</td>
+                {% endfor %}
+                {% for item in row|slice:"1:" %}
+                    {% if item.price > 0 %}
+                        <td>
+                            <a href="{% url 'item_info' item.id %}">
+                                {{ item.price }}
+                            </a>
+                        </td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
     {% endfor %}
 
     <h2>Toppings</h2>
