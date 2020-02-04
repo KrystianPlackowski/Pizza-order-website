@@ -42,7 +42,7 @@ def index(request):
     platters = prepare_table("dinner platter", ['Small', 'Large'])
 
     context = {
-        "menu": [regular_pizza, silician_pizza, subs, pasta, salads, platters],
+        "menu": [regular_pizza, silician_pizza, subs, platters, pasta, salads],
         "toppings": Topping.objects.all(),
     }
     return render(request, "orders/index.html", context)

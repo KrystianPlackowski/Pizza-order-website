@@ -5,15 +5,12 @@ class Menu(models.Model):
     kind = models.CharField(max_length=64, blank=False, default='')
     name = models.CharField(max_length=64, blank=False, default='')
     size = models.CharField(max_length=64, blank=True, default='')
-    toppings_amount = models.CharField(max_length=64, blank=True, default='')
     price = models.DecimalField(max_digits=4, decimal_places=2, blank=False, default=0)
 
     def __str__(self):
         result = f"({self.kind}) {self.name}"
         if self.size != '':
             result += f" - {self.size}"
-        if self.toppings_amount != '':
-            result += f" - {self.toppings_amount}"
         return result + f" - {self.price} $"
 
     class Meta:

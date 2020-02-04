@@ -24,9 +24,12 @@ The database file `db.sqlite3` has already extracted menu data from the orignal 
 2) Then you can create various `dishes` and assign them to a choosed `order`. The order consists of dishes which the user is going to see in their cart.
 3) Note: a `dish` differs from a `menu item` is such way, that in case of creating a pizza kind `dish` you can assign **various** `toppings` to it, where `menu item` pizza only defines **number** of `toppings`.
 
+03.02.2020
+- index page with menu items list in forms of tables done
+
 ### To do
 
 - login/logout for users
-- `/menu` route with menu items listed, all with `add to cart` buttons
+- <strike>`/menu` route with menu items listed</strike>**done**, all with `add to cart` buttons
 - `/menu/add/<dish_name>` route allowing users to customise dishes and add them to cart
 - `/your_cart` route with all dishes created by logged user, with total amount of $ to bill and with a textfield allowing the user to leave an additional message for restauration's owner

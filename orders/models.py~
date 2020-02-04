@@ -32,7 +32,7 @@ class Order(models.Model):
             return f"{self.id} - empty order"
         else:
             dish_list = ", ".join(str(seg) for seg in self.dish_list.all())
-            return f"{self.id} - {dish_list}"
+            return f"{self.id} - ({dish_list})"
 
 class Dish(models.Model):
     menu_item = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name="dishes_containing")
