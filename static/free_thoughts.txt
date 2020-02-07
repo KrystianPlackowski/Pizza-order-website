@@ -1,0 +1,64 @@
+do każdego ordera można przyporządkować dowolną liczbę dishy, co obrazuje relacja 
+class Dish():
+    order_number = models.ForeignKey(Order, related_name="dish_list")
+
+wówczas wywołanie 
+Orders.objects.get(id=1).dish_list
+zwraca listę dishy przyporządkowanych danemu orderowi
+
+chcę, aby
+Menu.objects.get(id=1).kind
+zwracało listę wszystkich typów dań (regular pizza, sub, pasta, dinner platter)
+zaś wywołanie
+Menu.objects.get(id=1).kind.get(id=1).size
+listę wszystkich sizów występujących dla pierwszego kind'a (regular pizza)
+podobnie 
+Menu.objects.get(id=1).kind.get(id=1).size.get(id=1).name.get(id=1)
+zwraca nazwę pierwszego dania typu 'regular pizza' i rozmiaru 'small' (wynikiem będzie 'Cheese')
+
+dla każdego kindu mieć listę names
+dla każdego name mieć litę sizes
+
+
+do każdego obiektu kind można przyporządkować dowolną liczbę obiektów name
+do każdego obiektu name można przyporządkować dowolną liczbe obiektów size
+każdy obiekt typu size przyporządkowuje item_id i price
+
+class Menu:
+    varchar kind
+    varchar name
+    varchar size
+    double price
+
+class ItemKind:
+    pass
+
+class ItemName:
+    kind = models.ForeignKey(ItemKind, related_name="name_list")
+
+class ItemSize:
+    name = models.ForeignKey(ItemName, related_name="size_list")
+    item_id = models.ForeignKey(
+    
+class ItemPrice:
+    size = models.ForeignKey(ItemSize, related_name="price_list")
+    item_id = models.ForeignKey(Menu, related_name=?)
+
+
+
+
+class menu:
+  char kind
+  char name
+  char size
+  double price
+
+class itemkind:
+  pass
+
+class itemname:
+  onetomany(itemkind)
+
+class itemsize:
+  onetomany(itemname)
+  onetoone(menu)
