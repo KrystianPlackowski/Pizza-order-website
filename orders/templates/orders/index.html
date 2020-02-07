@@ -12,20 +12,23 @@
         <table class="mytable">
             <tr>
                 <th></th>
-                {% for column_label in table.name_list.first.size_list.all %}
-                    <th>{{ column_label.size }}</th>
+                {% for column in table.size_list.all %}
+                    <th>{{ column.size }}</th>
                 {% endfor %}
             </tr>
             {% for row in table.name_list.all %}
                 <tr>
                     <th>{{ row.name }}</th>
-                    {% for element in row.size_list.all %}
-                        <td>
-                            
-                            <a href="{% url 'item_info' element.element.first.id %}">
-                                {{ element.element.first.price }}
-                            </a>
-                        </td>
+                    {% for column in table.size_list.all %}
+                        {% with item=row.item_list.all|get_size:column.id %}
+                            <td>
+                                {% if item != "" %}
+                                    <a href="{% url 'item_info' item.id %}">
+                                        {{ item.price }}
+                                    </a>
+                                {% endif %}
+                            </td>
+                        {% endwith %}
                     {% endfor %}
                 </tr>
             {% endfor %}

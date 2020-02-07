@@ -5,8 +5,9 @@
 {% endblock %}
 
 {% block body %}
-    <h1 style="padding-left:15%">{{ item.kind }} ({{ item.name }})</h1>
+    <h1 style="padding-left:15%">({{ item.kind }}) {{ item.name }}</h1>
 
-    <h2>{{ item }}</h2>
+    <h2>Size: {{ item.size }}</h2>
+    <h2>Price: {{ item.price }}</h2>
 
 {% endblock %}
