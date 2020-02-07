@@ -25,7 +25,7 @@ The database file `db.sqlite3` has already extracted menu data from the orignal 
 3) Note: a `dish` differs from a `menu item` is such way, that in case of creating a pizza kind `dish` you can assign **various** `toppings` to it, where `menu item` pizza only defines **number** of `toppings`.
 
 03.02.2020
-- index page with menu items list in forms of tables done
+- you can view price menu with links to corresponding pizza's info
 
 ### To do
 

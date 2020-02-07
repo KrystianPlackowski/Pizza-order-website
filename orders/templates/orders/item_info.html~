@@ -1,11 +1,11 @@
 {% extends "orders/base.html" %}
 
 {% block title %}
-    {{ item.name }} 
+    Item {{ item.id }} 
 {% endblock %}
 
 {% block body %}
-    <h1 style="padding-left:15%">{{ item.kind|capitalize }} ({{ item.name }})</h1>
+    <h1 style="padding-left:15%">{{ item.kind }} ({{ item.name }})</h1>
 
     <h2>{{ item }}</h2>
 
