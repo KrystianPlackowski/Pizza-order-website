@@ -7,22 +7,23 @@
 {% block body %}
     <h1 style="padding-left:15%">Menu</h1>
 
-    {% for foodkind in kinds %}
-        <h2>{{ foodkind|title }}</h2>
+    {% for table in kinds %}
+        <h2>{{ table|title }}</h2>
         <table class="mytable">
             <tr>
                 <th></th>
-                {% for column_element in foodkind.name_list.first.size_list.all %}
-                    <th>{{ column_element.size }}</th>
+                {% for column_label in table.name_list.first.size_list.all %}
+                    <th>{{ column_label.size }}</th>
                 {% endfor %}
             </tr>
-            {% for row in foodkind.name_list.all %}
+            {% for row in table.name_list.all %}
                 <tr>
                     <th>{{ row.name }}</th>
-                    {% for size in name.size_list.all %}
+                    {% for element in row.size_list.all %}
                         <td>
-                            <a href="{% url 'item_info' row.element.first.id %}">
-                                {{ row.element.first.price }}
+                            
+                            <a href="{% url 'item_info' element.element.first.id %}">
+                                {{ element.element.first.price }}
                             </a>
                         </td>
                     {% endfor %}
