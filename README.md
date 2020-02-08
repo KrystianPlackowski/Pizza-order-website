@@ -28,7 +28,7 @@ The database file `db.sqlite3` has already extracted menu data from the orignal 
 - you can view price menu with links to corresponding pizza's info
 
 08.02.2020
-- exchanged the notebook that <u>extracts data from web and inserts into database</u> to a notebook <u>that extracts data to .csv file</u>, which will be futher processed using django's ORM outside of the app, with `import csv.py` file (which is a huge WIP)
+- exchanged the notebook that <ins>extracts data from web and inserts into database</ins> to a notebook <ins>that extracts data to .csv file</ins>, which will be futher processed using django's ORM outside of the app with file `import csv.py` (WIP so far)
 
 ### To do
 
