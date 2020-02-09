@@ -2,6 +2,7 @@
 *~
 static/*
 !static/site.css
+!static/database_diagram.jpg
 pizza/__pycache__
 orders/__pycache__
 orders/migrations
