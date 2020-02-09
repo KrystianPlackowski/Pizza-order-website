@@ -27,13 +27,16 @@ The database file `db.sqlite3` has already extracted menu data from the orignal 
 03.02.2020
 - you can view price menu with links to corresponding pizza's info
 
-08.02.2020
+07.02.2020
 - exchanged the notebook that <ins>extracts data from web and inserts into database</ins> to a notebook <ins>that extracts data to .csv file</ins>
 - extracted data can be inserted into the database using django's ORM outside of the app by running the file `import csv.py`
+
+08.02.2020
+- added forms to properly (as tested so far) customize pizzas (add/delete toppings, change size, alter price) by users
 
 ### To do
 
 - login/logout for users
-- <strike>`/menu` route with menu items listed</strike>**done**, all with `add to cart` buttons
-- `/menu/add/<dish_name>` route allowing users to customise dishes and add them to cart
-- `/your_cart` route with all dishes created by logged user, with total amount of $ to bill and with a textfield allowing the user to leave an additional message for restauration's owner
+- <strike>`/` route with menu items listed</strike>**done**, all with `add to cart` buttons
+- `/<item_id>` <strike>route allowing users to customise dishes</strike>**done for pizzas** and add them to cart
+- `/cart` route with all dishes created by logged user, with total amount of $ to bill and with a textfield allowing the user to leave an additional message for restauration's owner

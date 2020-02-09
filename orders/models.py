@@ -20,6 +20,7 @@ class ItemName(models.Model):
     def __str__(self):
         return f"({self.kind_parent.kind}) - {self.name}"
 
+    @property
     def kind(self):
         return self.kind_parent.kind
 
@@ -30,6 +31,7 @@ class ItemSize(models.Model):
     def __str__(self):
         return f"({self.kind_parent.kind}) - {self.size}"
 
+    @property
     def kind(self):
         return self.kind_parent.kind
 
@@ -41,12 +43,18 @@ class MenuItem(models.Model):
     def __str__(self):
         return f"({self.id}) - {self.name_parent.kind_parent.kind} - {self.name_parent.name} - {self.size_parent.size} - {self.price}$"
 
+    @property
+    def kind_parent(self):
+        return self.name_parent.kind_parent
+
+    @property
     def kind(self):
         return self.name_parent.kind_parent.kind
 
+    @property
     def name(self):
         return self.name_parent.name
 
+    @property
     def size(self):
         return self.size_parent.size
-

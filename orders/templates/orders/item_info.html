@@ -1,13 +1,60 @@
 {% extends "orders/base.html" %}
 
 {% block title %}
-    Item {{ item.id }} 
+    Prepare order
 {% endblock %}
 
 {% block body %}
     <h1 style="padding-left:15%">({{ item.kind|title }}) {{ item.name }}</h1>
 
     <h2>Size: {{ item.size }}</h2>
+    <form action="{% url 'item_info' item.id %}" method="post">
+        {% csrf_token %}
+        {% for size in item.kind_parent.size_list.all %}
+            <input type="radio" name="size" value="{{ size.size }}">{{ size.size }}
+        {% endfor %}
+        <input type="submit" value="Change size"/>
+    </form>
+
+    <h2>Toppings:</h2>
+    <ul>
+        {% for topping in selected_toppings %}
+            <li>
+                <form action="{% url 'item_info' item.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="delete" value="{{ topping }}">x</button> {{ topping }}
+                </form>
+            </li>
+        {% empty %}
+            <li>No toppings selected.</li>
+        {% endfor %}
+    </ul>
+
+    {% if selected_toppings|length < 5 %}
+        <form action="{% url 'item_info' item.id %}" method="post">
+            {% csrf_token %}
+            <select name="topping">
+                {% for topping in not_selected_toppings %}
+                    <option value="{{ topping }}">{{ topping }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Add topping"/>
+        </form>
+    {% else %}
+        <p>Maximum number of toppings reached.</p>
+    {% endif %}
+
     <h2>Price: {{ item.price }}$</h2>
+
+    <form id="1" action="{% url 'add_to_cart' item.id %}" method="post">
+        {% csrf_token %}
+    </form>
+
+    <form id="2" action="{% url 'index' %}" method="get">
+        {% csrf_token %}
+    </form>
+
+    <button form="1" class="inner" type="submit">Add to cart</button>
+    <button form="2" class="inner" type="submit">Go back to menu</button>
 
 {% endblock %}
