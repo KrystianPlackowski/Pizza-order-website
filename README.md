@@ -10,7 +10,7 @@ The goal is to develop own version of following website: http://www.pinocchiospi
 
 The program requires Django installed to run. Type `python3 manage.py runserver` and copy output link from terminal to go to the basic route.
 
-The file `extract data.ipynb` extracts data from orignal website to `.csv` files `menu_tables.csv` and `menu_toppings.csv`. Running `import csv.py` file with command `python3 manage.py import\ csv.py` inserts `.csv` files' inner into the database.
+The file `extract data.ipynb` extracts data from orignal website to .csv files `menu_tables.csv` and `menu_toppings.csv`. Running `import csv.py` file with command `python3 manage.py import\ csv.py` inserts `.csv` files' inner into the database.
 
 The database file `db.sqlite3` has already inserted menu data from the orignal site and also contains already created superuser (username: `admin`, password: `abc123`).
 
@@ -20,9 +20,9 @@ The database diagram is shown below. All menu data is stored in 4 tables, connec
 
 - `ItemKind` table consists of all possible dish **kinds**.
 
-- `ItemName` table consists of all possible dish **names** with the same **kind**, and corresponds to **number of toppings** in case of pizzas.
+- `ItemName` table consists of all possible dish **names** with the same **kind**, and defines number of toppings in case of pizzas.
 
-- `ItemSize` table consists of all possible **size variants** for specified **kind**.
+- `ItemSize` table consists of all possible **size variants** for specified dish **kind**.
 
 - `MenuItem` table defines **price** of a dish for corresponding **kind, name and size**.
 
