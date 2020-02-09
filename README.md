@@ -6,6 +6,16 @@ This is (potentially) a solution for the third problem from CS50 course conducte
 
 The goal is to develop own version of following website: http://www.pinocchiospizza.net/menu.html with additional ability allowing users to place orders composed of dishes listed in menu.
 
+## Running
+
+The program requires Django installed to run. Type `python3 manage.py runserver` and copy output link from terminal to go to the basic route.
+
+The file `extract data.ipynb` extracts data from orignal website to `.csv` files `menu_tables.csv` and `menu_toppings.csv`. Running `import csv.py` file with command `python3 manage.py import\ csv.py` inserts `.csv` files' inner into the database.
+
+The database file `db.sqlite3` has already inserted menu data from the orignal site and also contains already created superuser (username: `admin`, password: `abc123`).
+
+## Database
+
 The database diagram is shown below. All menu data is stored in 4 tables, connected with foreignkeys. The arrowhead points to a table which posses foreignkey to a table pointed by arrow start.
 
 - `ItemKind` table consists of all possible dish **kinds**.
@@ -16,15 +26,7 @@ The database diagram is shown below. All menu data is stored in 4 tables, connec
 
 - `MenuItem` table defines **price** of a dish for corresponding **kind, name and size**.
 
-<img src="../database\ diagram.jpg">
-
-## Running
-
-The program requires Django installed to run. Type `python3 manage.py runserver` and copy output link from terminal to go to the basic route.
-
-The file `extract data.ipynb` extracts data from orignal website to `.csv` files `menu_tables.csv` and `menu_toppings.csv`. Running `import csv.py` file with command `python3 manage.py import\ csv.py` inserts `.csv` files' inner into the database.
-
-The database file `db.sqlite3` has already inserted menu data from the orignal site and also contains already created superuser (username: `admin`, password: `abc123`).
+![database](static\database/ diagram.jpg">
 
 ### Progress so far
 
@@ -50,5 +52,5 @@ The database file `db.sqlite3` has already inserted menu data from the orignal s
 
 - login/logout for users
 - <strike>`/` route with menu items listed</strike>**done**, all with `add to cart` buttons
-- `/<item_id>` <strike>route allowing users to customise dishes</strike>**done for pizzas** and add them to cart
+- <strike>`/<item_id>` route allowing users to customise dishes</strike>**done for pizzas** and add them to cart
 - `/cart` route with all dishes created by logged user, with total amount of $ to bill and with a textfield allowing the user to leave an additional message for restauration's owner
