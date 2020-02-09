@@ -26,7 +26,7 @@ The database diagram is shown below. All menu data is stored in 4 tables, connec
 
 - `MenuItem` table defines **price** of a dish for corresponding **kind, name and size**.
 
-![Alt text](/static/database\ diagram.jpg)
+<img src="static/database\ diagram.jpg">
 
 ### Progress so far
 
