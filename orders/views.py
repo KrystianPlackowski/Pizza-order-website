@@ -72,7 +72,11 @@ def item_info(request, menu_id):
             item = filterMenuByProperties(kind=item.kind, name=item.name, size=new_size)
 
         if not item:
-            raise Http404('Item with selected properties in form not found in menu. Or name/number of toppings with undefined behaviour assinged to pizza. Default is: 0 toppings -> name=\'Cheese\', 1 topping -> name=\'1 topping\', 2 toppings -> name=\'2 toppings\', 3 toppings -> name=\'3 toppings\', 4 or 5 toppings -> name=\'Special\'')
+            raise Http404('Item with selected properties in form not found in menu.\
+                    Or name/number of toppings with undefined behaviour assinged to pizza. \
+                    Default is: 0 toppings -> name=\'Cheese\', 1 topping -> name=\'1 topping\', \
+                    2 toppings -> name=\'2 toppings\', 3 toppings -> name=\'3 toppings\', \
+                    4 or 5 toppings -> name=\'Special\'')
 
         context = {
             "size": new_size,
