@@ -25,6 +25,9 @@ def index(request):
 
 def item_info(request, menu_id):
     item = MenuItem.objects.get(id=menu_id)
+    if not item:
+        raise Http404('Item not in menu.')
+
     if 'pizza' in item.kind:
         selected_toppings = request.session['selected_toppings']
         if request.method == 'POST':
@@ -44,12 +47,10 @@ def item_info(request, menu_id):
         def numberOfToppingsToName(kind, x):
             if x > 3:
                 return 'Special'
-            if kind == 'regular pizza':
-                return {0: 'Cheese', 1: '1 topping', 2: '2 toppings', 3: '3 toppings'}[x]
-            elif kind == 'silician pizza':
+            if kind == 'silician pizza':
                 return {0: 'Cheese', 1: '1 item', 2: '2 items', 3: '3 items'}[x]
             else:
-                raise Http404('Behaviour not implemented for this kind of pizza.')
+                return {0: 'Cheese', 1: '1 topping', 2: '2 toppings', 3: '3 toppings'}[x]
 
         def filterMenuByProperties(kind, name, size):
             try:
@@ -67,11 +68,11 @@ def item_info(request, menu_id):
                 )
         
         new_size = request.POST.get('size', None)
-        if new_size:
+        if item and new_size:
             item = filterMenuByProperties(kind=item.kind, name=item.name, size=new_size)
 
         if not item:
-            raise Http404('Item with selected properties in form not found in menu.')
+            raise Http404('Item with selected properties in form not found in menu. Or name/number of toppings with undefined behaviour assinged to pizza. Default is: 0 toppings -> name=\'Cheese\', 1 topping -> name=\'1 topping\', 2 toppings -> name=\'2 toppings\', 3 toppings -> name=\'3 toppings\', 4 or 5 toppings -> name=\'Special\'')
 
         context = {
             "size": new_size,
