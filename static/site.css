@@ -2,3 +2,4 @@
 .mytable { width: 50%; }
 .mytable tr, th { text-align: left; }
 .mytable tr, td { width: 25%; }
+.nobull { list-style-type: none; }

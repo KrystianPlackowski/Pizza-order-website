@@ -17,12 +17,12 @@
     </form>
 
     <h2>Toppings:</h2>
-    <ul>
+    <ul class="nobull">
         {% for topping in selected_toppings %}
             <li>
                 <form action="{% url 'item_info' item.id %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" name="delete" value="{{ topping }}">x</button> {{ topping }}
+                    <button type="submit" name="delete" value="{{ topping.id }}">x</button> {{ topping.name }}
                 </form>
             </li>
         {% empty %}
@@ -35,7 +35,7 @@
             {% csrf_token %}
             <select name="topping">
                 {% for topping in not_selected_toppings %}
-                    <option value="{{ topping }}">{{ topping }}</option>
+                    <option value="{{ topping.id }}">{{ topping.name }}</option>
                 {% endfor %}
             </select>
             <input type="submit" value="Add topping"/>
@@ -46,15 +46,10 @@
 
     <h2>Price: {{ item.price }}$</h2>
 
-    <form id="1" action="{% url 'add_to_cart' item.id %}" method="post">
-        {% csrf_token %}
-    </form>
+    <form id="1" action="{% url 'add_to_cart' %}" method="post">{% csrf_token %}</form>
+    <form id="2" action="{% url 'index' %}" method="get"></form>
 
-    <form id="2" action="{% url 'index' %}" method="get">
-        {% csrf_token %}
-    </form>
-
-    <button form="1" class="inner" type="submit">Add to cart</button>
-    <button form="2" class="inner" type="submit">Go back to menu</button>
+    <button form="1" class="inner" type="submit" name="cart_item" value="{{ item.id }}">Add to cart</button>
+    <button form="2" class="inner" type="submit">Go to menu</button>
 
 {% endblock %}

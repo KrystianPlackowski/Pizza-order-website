@@ -1,0 +1,38 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+    Your cart
+{% endblock %}
+
+{% block body %}
+    <h1 style="padding-left:15%">Your cart</h1>
+
+    <h2>Dishes in your cart:</h2>
+    {#<ul style="list-style-type: none;">#}
+    <ul class="nobull">
+    {% for dish in dishes %}
+        <li>
+            <form action="{% url 'cart' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" name="delete" value="{{ dish.id }}">x</button>
+                <b>({{ dish.price}} $)</b> {{ dish.size }} {{ dish.kind|title }}
+                {% if dish.toppings_list|length %}
+                    with {{ dish.toppings_list }}
+                {% endif %}
+            </form>
+        </li>
+    {% empty %}
+        <li>No dishes in cart.</li>
+    {% endfor %}
+    </ul>
+
+    {% if overall_price > 0 %}
+        <h2>Overall price: {{ overall_price|floatformat:2 }} $</h2>
+    {% endif %}
+
+    <form id="1" action="{% url 'place_order' %}" method="post">{% csrf_token %}</form> 
+    <form id="2" action="{% url 'index' %}" method="get"></form>
+
+    <button form="1" class="inner" type="submit" name="order" value="has to be dishes id">Place order</button>
+    <button form="2" class="inner" type="submit">Go to menu</button>
+{% endblock %}

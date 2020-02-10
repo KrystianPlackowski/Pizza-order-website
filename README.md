@@ -48,9 +48,13 @@ The database diagram is shown below. All menu data is stored in 4 tables, connec
 08.02.2020
 - added forms to properly (as tested so far) customize pizzas (add/delete toppings, change size, alter price) by users
 
+9.02.2020
+- added form to properly add/delete dishes to card and display overall price
+
 ### To do
 
 - login/logout for users
 - <strike>`/` route with menu items listed</strike>**done**, all with `add to cart` buttons
-- <strike>`/<item_id>` route allowing users to customise dishes</strike>**done for pizzas** and add them to cart
-- `/cart` route with all dishes created by logged user, with total amount of $ to bill and with a textfield allowing the user to leave an additional message for restauration's owner
+- <strike>`/<item_id>` route allowing users to customise dishes</strike>**done for pizzas** <strike>and add them to cart</strike>**done**
+- `/cart` <strike>route with all dishes created by logged user, with total amount of $ to bill</strike>**mostly done** and with a textfield allowing the user to leave an additional message for restauration's owner
+- **start making unit tests!**

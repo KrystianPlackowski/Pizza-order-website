@@ -1,11 +1,13 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.views.decorators.http import require_http_methods
 from django.shortcuts import render
 from django.urls import reverse
 from django.template.defaulttags import register
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Sum
 
-from .models import Topping, ItemKind, ItemName, ItemSize, MenuItem
+from .models import Topping, ItemKind, ItemName, ItemSize, MenuItem, Dish, Order
 
 @register.filter
 def get_size(instance, key):
@@ -29,10 +31,14 @@ def item_info(request, menu_id):
         raise Http404('Item not in menu.')
 
     if 'pizza' in item.kind:
-        selected_toppings = request.session['selected_toppings']
+        selected_toppings = request.session.get('selected_toppings', [])
         if request.method == 'POST':
             new_topping = request.POST.get('topping', None)
             toDelete_topping = request.POST.get('delete', None)
+            if new_topping:
+                new_topping = int(new_topping)
+            if toDelete_topping:
+                toDelete_topping = int(toDelete_topping)
 
             # Avoid readding/redeleting the same topping if user refreshed the page
             if new_topping and not new_topping in selected_toppings: 
@@ -52,24 +58,19 @@ def item_info(request, menu_id):
             else:
                 return {0: 'Cheese', 1: '1 topping', 2: '2 toppings', 3: '3 toppings'}[x]
 
-        def filterMenuByProperties(kind, name, size):
-            try:
-                kind_parent = ItemKind.objects.filter(kind=kind).first()
-                name_parent = ItemName.objects.filter(name=name, kind_parent=kind_parent).first()
-                size_parent = ItemSize.objects.filter(size=size, kind_parent=kind_parent).first()
-                return MenuItem.objects.filter(name_parent=name_parent, size_parent=size_parent).first()
-            except:
-                return None
+        item = MenuItem.objects.filter(
+                name_parent__kind_parent__kind = item.kind,
+                name_parent__name = numberOfToppingsToName(item.kind, len(selected_toppings)),
+                size_parent__size = item.size
+                ).first()
 
-        item = filterMenuByProperties(
-                kind = item.kind,
-                name = numberOfToppingsToName(item.kind, len(selected_toppings)),
-                size = item.size
-                )
-        
         new_size = request.POST.get('size', None)
         if item and new_size:
-            item = filterMenuByProperties(kind=item.kind, name=item.name, size=new_size)
+             item = MenuItem.objects.filter(
+                    name_parent__kind_parent__kind = item.kind,
+                    name_parent__name = item.name,
+                    size_parent__size = new_size
+                    ).first()
 
         if not item:
             raise Http404('Item with selected properties in form not found in menu.\
@@ -79,14 +80,49 @@ def item_info(request, menu_id):
                     4 or 5 toppings -> name=\'Special\'')
 
         context = {
-            "size": new_size,
             "item": item,
-            "selected_toppings": selected_toppings, 
-            "not_selected_toppings": Topping.objects.exclude(name__in=selected_toppings).all(),
+            "selected_toppings": Topping.objects.filter(id__in=selected_toppings), 
+            "not_selected_toppings": Topping.objects.exclude(id__in=selected_toppings).all(),
         }
         return render(request, "orders/item_info.html", context)
     else:
         return render(request, "orders/error.html", context={"message": "Currently not supported."})
 
-def add_to_cart(request, menu_id):
-    return render(request, "orders/error.html", context={"message": "Currently not implemented."})
+@require_http_methods(["POST"])
+def add_to_cart(request):
+    menu_id = request.POST.get('cart_item', None)
+    if menu_id:
+        item = MenuItem.objects.get(id=int(menu_id))
+    if not menu_id or not item:
+        raise Http404('Item not in menu.')
+    selected_toppings = request.session.get('selected_toppings', [])
+
+    new_dish = Dish(item_parent=item)
+    new_dish.save()
+    new_dish.toppings.add(*[topping for topping in selected_toppings])
+    dishes = request.session.get('users_dishes', [])
+    dishes.append(new_dish.id)
+    request.session['users_dishes'] = dishes
+
+    return render(request, "orders/success.html", context={"message": "Successfully added to cart!"})
+
+def cart(request):
+    dishes = request.session.get('users_dishes', [])
+    toDelete_dish = request.POST.get('delete', None)
+    if toDelete_dish:
+        toDelete_dish = int(toDelete_dish)
+    if toDelete_dish and toDelete_dish in dishes:
+        dishes.remove(toDelete_dish)
+        Dish.objects.filter(id=toDelete_dish).delete()
+    
+    context = {
+        "dishes": Dish.objects.filter(id__in=dishes).all(),
+        "overall_price": Dish.objects \
+            .filter(id__in=dishes) \
+            .aggregate(overall_price=Sum('item_parent__price'))['overall_price'],
+    }
+    return render(request, "orders/cart.html", context)
+
+@require_http_methods(["POST"])
+def place_order(request):
+    return render(request, "orders/error.html", context={"message": "Currently not implemented"})
