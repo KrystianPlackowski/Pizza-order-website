@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.template.defaulttags import register
 from django.core.exceptions import ObjectDoesNotExist
@@ -26,6 +26,9 @@ def index(request):
     return render(request, "orders/index.html", context)
 
 def item_info(request, menu_id):
+    if not request.user.is_authenticated:
+        return render(request, 'error.html', context={"message": "Only authenticated users are able to prepare and submit orders."})
+
     item = MenuItem.objects.get(id=menu_id)
     if not item:
         raise Http404('Item not in menu.')
@@ -86,7 +89,7 @@ def item_info(request, menu_id):
         }
         return render(request, "orders/item_info.html", context)
     else:
-        return render(request, "orders/error.html", context={"message": "Currently not supported."})
+        return render(request, "error.html", context={"message": "Currently not supported."})
 
 @require_http_methods(["POST"])
 def add_to_cart(request):
@@ -104,9 +107,12 @@ def add_to_cart(request):
     dishes.append(new_dish.id)
     request.session['users_dishes'] = dishes
 
-    return render(request, "orders/success.html", context={"message": "Successfully added to cart!"})
+    return render(request, "success.html", context={"message": "Successfully added to cart!"})
 
 def cart(request):
+    if not request.user.is_authenticated:
+        return render(request, 'error.html', context={"message": "Please login to see your cart."})
+
     dishes = request.session.get('users_dishes', [])
     toDelete_dish = request.POST.get('delete', None)
     if toDelete_dish:
@@ -125,4 +131,4 @@ def cart(request):
 
 @require_http_methods(["POST"])
 def place_order(request):
-    return render(request, "orders/error.html", context={"message": "Currently not implemented"})
+    return render(request, "error.html", context={"message": "Currently not implemented"})

@@ -1,0 +1,35 @@
+{# Base global template for all apps in the project #}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'site.css' %}"/>
+
+        {% if request.user.is_authenticated %}
+            <p>
+                <a href="{% url 'index' %}">Menu</a> |
+                Hello, {{ request.user.username }} |
+                <a href="{% url 'logout' %}">Logout</a> |
+                <a href="{% url 'cart' %}">Your cart</a>
+            </p>
+        {% else %}
+            <p>
+                <a href="{% url 'index' %}">Menu</a> |
+                <a href="{% url 'register' %}">Register</a> |
+                <a href="{% url 'login' %}">Login</a>
+            </p>
+        {% endif %}
+        <hr>
+	</head>
+	<body>
+        {% block body %}
+        {% endblock %}
+	</body>
+
+    <footer>
+        <hr>
+        <p>Pizza Order Website | 2020</p>
+    </footer>
+</html>

@@ -1,4 +1,4 @@
-{% extends "orders/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}
     Prepare order
@@ -46,10 +46,8 @@
 
     <h2>Price: {{ item.price }}$</h2>
 
-    <form id="1" action="{% url 'add_to_cart' %}" method="post">{% csrf_token %}</form>
-    <form id="2" action="{% url 'index' %}" method="get"></form>
-
-    <button form="1" class="inner" type="submit" name="cart_item" value="{{ item.id }}">Add to cart</button>
-    <button form="2" class="inner" type="submit">Go to menu</button>
+    <form action="{% url 'add_to_cart' %}" method="post">{% csrf_token %}
+        <button type="submit" name="cart_item" value="{{ item.id }}">Add to cart</button>
+    </form> 
 
 {% endblock %}
