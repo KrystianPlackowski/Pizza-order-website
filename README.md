@@ -16,7 +16,7 @@ The database file `db.sqlite3` has already inserted menu data from the orignal s
 
 ## Database
 
-The database diagram is shown below. All menu data is stored in 4 tables, connected with foreignkeys. The arrowhead points to a table which posses foreignkey to a table pointed by arrow start.
+The database diagram is shown below. All menu data is stored in 4 tables, connected with foreignkeys. The arrowhead points to a table which posses foreignkey of a table at the arrow start. 3 parallel arrows mean 'many to many relation'.
 
 - `ItemKind` table consists of all possible dish **kinds**.
 
@@ -25,6 +25,14 @@ The database diagram is shown below. All menu data is stored in 4 tables, connec
 - `ItemSize` table consists of all possible **size variants** for specified dish **kind**.
 
 - `MenuItem` table defines **price** of a dish for corresponding **kind, name and size**.
+
+- `Topping` table defines names of available toppings for pizza
+
+- `Dish` table concats **kind, name, size, price** info with selected toppings for pizza, which are a list of `Topping` objects.
+
+- `Order` represents single `User`'s order, which consists of list of `Dish` elements.
+
+- `User` is a standard django table with normal and superusers info, used for logging and authentificating users.
 
 <img src="static/database_diagram.jpg">
 
